@@ -273,6 +273,7 @@ Output:
     label: string,
     text: string
   }] | null,
+  summary: string | null,     // AI-generated interview summary. null if in-progress.
   structuredAnswers: {        // null if extraction hasn't run yet
     questions: [{
       questionId: string,     // Matches the question ID from project definition
@@ -284,6 +285,7 @@ Output:
       }]
     }]
   } | null,
+  transcript: string | null,  // Formatted plain-text conversation record. null if in-progress.
   createdAt: string           // ISO 8601
 }
 ```
@@ -293,6 +295,8 @@ Notes:
 - personalInfo is populated from info the interviewee voluntarily shared during conversation.
 - In-progress sessions may have partial or null structuredAnswers.
 - The "main" answer kind represents the direct response. "followup" represents elaborations probed by the AI interviewer.
+- summary and transcript are only available for completed sessions (null while in-progress).
+- transcript uses `[Interviewer | Q1] ...` / `[Interviewee | Answer] ...` notation for structured Q&A, and `[Interviewer]` / `[Interviewee]` for free-form dialogue.
 
 ---
 
