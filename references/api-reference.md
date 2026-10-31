@@ -190,7 +190,7 @@ Output:
   projectId: number;
   sessions: {
     sessionId: number;
-    title: string | null;
+    title: string | null; // null for a person: the title starts with their name
     status: "completed" | "in_progress";
     type: "human" | "persona";
     createdAt: string;
@@ -205,7 +205,7 @@ Output:
 
 ### atypica_interview_get_session
 
-One person's interview.
+One interview. A person who answered is not identified: no account id, name, title or the personal info they filled in. The account owner sees those on the web page.
 
 Input:
 
@@ -221,11 +221,10 @@ Output:
 {
   sessionId: number
   projectId: number
-  title: string | null
+  title: string | null           // null for a person: the title starts with their name
   status: "completed" | "in_progress"
   type: "human" | "persona"
-  interviewee: { type: "human" | "persona", id: number, name: string } | null
-  personalInfo: { label: string, text: string }[] | null  // what the interviewee chose to share
+  interviewee: { type: "human" } | { type: "persona", id: number, name: string } | null  // a person is not identified
   summary: string | null         // once the interview has one
   structuredAnswers: {           // null until the answers are extracted
     questions: {
@@ -234,7 +233,7 @@ Output:
       answers: { kind: "main" | "followup", label: string, value: string | number }[]
     }[]
   } | null
-  transcript: string | null      // the conversation as text
+  transcript: string | null      // the conversation as text, without the opening form that asks who they are
   createdAt: string
 }
 ```
