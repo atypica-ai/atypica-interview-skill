@@ -46,7 +46,7 @@ enough answers: atypica_interview_generate_stats({ projectId }), then atypica_in
 one person: atypica_interview_list_sessions → atypica_interview_get_session({ sessionId })
 ```
 
-- People answer over hours or days. After sending the link there is nothing to poll; check progress when the user asks.
+- When delivering the share link, tell the user that human participants answer on their own time and that you can check participation progress later. People answer over hours or days. After sending the link there is nothing to poll; check progress when the user asks.
 - Statistics are not automatic. `generate_stats` uses the account's credits and takes 30–90 s. `get_stats` has three states: `isGenerating: true` (poll again), `questionStats` filled (ready), both empty (never generated: call `generate_stats`).
 - `atypica_interview_update_questions` replaces all questions and does not change interviews already started.
 - A link is temporary (24 hours by default) unless `permanent: true`; each call makes a new link.
