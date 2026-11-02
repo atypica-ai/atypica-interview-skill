@@ -6,7 +6,7 @@ Every tool of the MCP server at `https://atypica.ai/mcp/interview`, with its inp
 
 **Transport and sign-in.** Streamable HTTP, JSON-RPC 2.0, at `https://atypica.ai/mcp/interview`. Send `Authorization: Bearer atypica_…`, an API key from https://atypica.ai/account/api-keys. It acts as the account the user signed in as (a personal account or a team member) and spends that account's credits. A missing or invalid key is HTTP 401.
 
-**Results.** Every tool returns `content` (one text block, for clients that read only text) and, on success, `structuredContent` (the JSON below). The two say the same thing. A failure is a normal result with `isError: true` and one sentence in the text, not a JSON-RPC error:
+**Results.** Every tool returns `content` (one text block, for clients that read only text) and, on success, `structuredContent` (the JSON below). Both are made from the tool's declared `outputSchema`, which `tools/list` returns; no field outside it is sent. A failure is a normal result with `isError: true` and one sentence in the text, not a JSON-RPC error:
 
 - one the client can act on (not found, still running, a wrong answer shape) says what to do;
 - an unexpected one says only that something went wrong on atypica's side; the cause stays in the server log.
@@ -284,7 +284,7 @@ Output:
   statsGeneratedAt: string | null
   isGenerating: boolean
   progress: { done: number, total: number } | null   // while generating
-  error: { message: string | null, failedAt: number | null } | null
+  lastFailedAt: number | null    // when the last generation failed (ms since epoch); why stays in the server log
 }
 ```
 
